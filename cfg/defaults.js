@@ -10,6 +10,9 @@ const path = require('path');
 const srcPath = path.join(__dirname, '/../src');
 const dfltPort = 8000;
 
+// var ExtractTextPlugin = require("extract-text-webpack-plugin");
+// var extractCSS = new ExtractTextPlugin('stylesheets/[name].css');
+
 /**
  * Get the default modules object for webpack
  * @return {Object}
@@ -27,6 +30,7 @@ function getDefaultModules() {
       {
         test: /\.css$/,
         loader: 'style-loader!css-loader!autoprefixer-loader?{browsers:["last 2 version"]}'
+        // loader:  ExtractTextPlugin.extract("style-loader","css-loader")
       },
       {
         test: /\.json$/,
@@ -39,6 +43,7 @@ function getDefaultModules() {
       {
         test: /\.scss/,
         loader: 'style-loader!css-loader!sass-loader?outputStyle=expanded'
+        // loader: extractCSS.extract(['css-loader','sass-loader?outputStyle=expanded'])
       },
       {
         test: /\.less/,
