@@ -1,7 +1,6 @@
 // require('normalize.css/normalize.css');
 require('styles/main.scss');
 
-
 import React from 'react';
 
 var imageDatas = require('../data/imageDatas.json');
@@ -19,16 +18,24 @@ imageDatas = (function genImageURL(imageDataArr){
   return imageDataArr;
 })(imageDatas);
 
+//@return 计算范围为[low,high)的随机值
+function getRangeRandom(low,high){
+
+  return Math.floor(Math.random()*(high - low) + low);
+}
+
+//@return 计算范围为[-30,30)的随机角度值
+function get30DegRandom(){
+
+  return Math.floor(Math.random()*60 - 30);
+}
+
 var ImgFigure = React.createClass({
 
   handleClick: function(e){
-    console.log('click');
-    console.log(this.props.arrange.isCenter);
     if(this.props.arrange.isCenter){
-      console.log('isCenter,then inverse');
       this.props.inverse();
     }else{
-      console.log('is not center, then center');
       this.props.center();
     }
     e.stopPropagation();
@@ -45,7 +52,7 @@ var ImgFigure = React.createClass({
     }
 
     if(this.props.arrange.rotate){
-      (['-moz-','-ms-','-webkit','']).forEach(
+      (['MozTransform','msTransform','WebkitTransform','']).forEach(
         function(value){
           styleObj[value+'transform'] = 'rotate('+this.props.arrange.rotate+'deg)';
         }.bind(this)
@@ -76,17 +83,32 @@ var ImgFigure = React.createClass({
   }
 });
 
-//@return 计算范围为[low,high)的随机值
-function getRangeRandom(low,high){
+//控制组件
+var ControllerUnits = React.createClass({
+  handleClick: function(e){
 
-  return Math.floor(Math.random()*(high - low) + low);
-}
+    if(this.props.arrange.isCenter){
+      this.props.inverse();
+    }else{
+      this.props.center();
+    }
+    e.preventDefault;
+    e.stopPropagation;
+  },
 
-//@return 计算范围为[-30,30)的随机角度值
-function get30DegRandom(){
-
-  return Math.floor(Math.random()*60 - 30);
-}
+  render: function(){
+    var className = 'controller-unit';
+    if(this.props.arrange.isCenter){
+      className += ' is-center';
+      if(this.props.arrange.isInverse){
+        className += ' is-inverse';
+      }
+    }
+    return (
+      <span className={className} onClick={this.handleClick}></span>
+      );
+  }
+});
 
 var GalleryByReactApp = React.createClass({
   Constant: {
@@ -113,7 +135,6 @@ var GalleryByReactApp = React.createClass({
   */
   inverse: function(index){
     return function(){
-      console.log('inversing');
       var imgsArrangeArr = this.state.imgsArrangeArr;
 
       imgsArrangeArr[index].isInverse = !imgsArrangeArr[index].isInverse;
@@ -129,7 +150,6 @@ var GalleryByReactApp = React.createClass({
   */
   center: function(index){
     return function(){
-      console.log('centering');
       this.rearrange(index);
     }.bind(this);
   },
@@ -137,14 +157,13 @@ var GalleryByReactApp = React.createClass({
   //重新排布图片位置
   // @param centerIndex 指定居中图片的index
   rearrange: function(centerIndex){
-    console.log('rearranging');
     var imgsArrangeArr = this.state.imgsArrangeArr;
     var Constant = this.Constant;
     var centerPos = Constant.centerPos;
     var hPosRangeLeftSec = Constant.hPosRange.leftSecX;
     var vPosRangeLeftSec = Constant.vPosRange.leftSecY;
     var hPosRangeRightSec = Constant.hPosRange.rightSecX;
-    var vPosRangeRightSec = Constant.vPosRange.rightSecY;
+    // var vPosRangeRightSec = Constant.vPosRange.rightSecY;
     var hPosRangeTopSec = Constant.hPosRange.topSecX;
     var vPosRangeTopSec = Constant.vPosRange.topSecY;
 
@@ -267,9 +286,20 @@ var GalleryByReactApp = React.createClass({
         }
       }
 
-      imgFigures.push(<ImgFigure data = {value} key={value.imageURL}
+      imgFigures.push(
+        <ImgFigure data = {value} key={'imgFigure'+index}
         ref={'imgFigure'+index} arrange={this.state.imgsArrangeArr[index]}
-        inverse={this.inverse(index)} center={this.center(index)}/>);
+        inverse={this.inverse(index)} center={this.center(index)}
+        />
+      );
+
+      controllerUnits.push(
+        <ControllerUnits data = {value} key={'controllerNav'+index}
+        ref={'controllerNav'+index} arrange={this.state.imgsArrangeArr[index]}
+        inverse={this.inverse(index)} center={this.center(index)}
+        />
+      );
+
     }.bind(this));
 
     return (
@@ -278,6 +308,7 @@ var GalleryByReactApp = React.createClass({
           {imgFigures}
         </section>
         <nav className="controller-nav">
+          {controllerUnits}
         </nav>
       </section>
     );
