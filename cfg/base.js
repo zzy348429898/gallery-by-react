@@ -21,7 +21,7 @@ module.exports = {
     historyApiFallback: true,
     hot: true,
     port: defaultSettings.port,
-    publicPath: defaultSettings.publicPath,
+    publicPath: '/' + defaultSettings.publicPath,
     noInfo: false
   },
   resolve: {
