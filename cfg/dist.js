@@ -32,9 +32,7 @@ let config = Object.assign({}, baseConfig, {
   ],
   module: defaultSettings.getDefaultModules()
 });
-
-console.log('*******************');
-console.log(config.output.publicPath);
+config.output.pulicPath = 'https://zzy348429898.github.io/gallery-by-react/assets/';
 
 // Add needed loaders to the defaults here
 config.module.rules.push({

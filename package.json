@@ -14,7 +14,7 @@
     "release:patch": "npm version patch && npm publish && git push --follow-tags",
     "serve": "node server.js --env=dev",
     "serve:dist": "webpack-dev-server --env=dist --progress --colors --hot --inline",
-    "start": "webpack --env=dev && webpack-dev-server --env=dev --progress --colors --hot --inline",
+    "start": "webpack-dev-server --env=dev --progress --colors --hot --inline",
     "test": "karma start",
     "test:watch": "karma start --autoWatch=true --singleRun=false"
   },

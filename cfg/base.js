@@ -17,7 +17,7 @@ module.exports = {
     publicPath: defaultSettings.publicPath
   },
   devServer: {
-    contentBase: './scr/',//本地服务器所加载的页面所在的目录
+    contentBase: './src/',
     historyApiFallback: true,
     hot: true,
     port: defaultSettings.port,
