@@ -33,6 +33,9 @@ let config = Object.assign({}, baseConfig, {
   module: defaultSettings.getDefaultModules()
 });
 
+console.log('*******************');
+console.log(config.output.publicPath);
+
 // Add needed loaders to the defaults here
 config.module.rules.push({
   test: /\.(js|jsx)$/,

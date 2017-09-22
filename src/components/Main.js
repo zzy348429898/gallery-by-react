@@ -66,6 +66,9 @@ var ImgFigure = React.createClass({
     var imgFigureClassName = 'img-figure';
     imgFigureClassName += this.props.arrange.isInverse ? ' is-inverse' : '';
 
+    console.log('*************');
+    console.log(this.props.data.imageURL);
+
     return (<figure className={imgFigureClassName} style={styleObj}
             ref={'imgFigure'+this.props.data.id} onClick={this.handleClick}>
               <img src={this.props.data.imageURL}

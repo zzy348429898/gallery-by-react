@@ -17,11 +17,11 @@ module.exports = {
     publicPath: defaultSettings.publicPath
   },
   devServer: {
-    contentBase: './dist/',//本地服务器所加载的页面所在的目录
+    contentBase: './scr/',//本地服务器所加载的页面所在的目录
     historyApiFallback: true,
     hot: true,
     port: defaultSettings.port,
-    publicPath: '/' + defaultSettings.publicPath,
+    publicPath: defaultSettings.publicPath,
     noInfo: false
   },
   resolve: {
