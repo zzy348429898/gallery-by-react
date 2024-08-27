@@ -1,4 +1,4 @@
-[
+const data =[
   {
     "fileName": "1.jpg",
     "title": "Heaven of time",
@@ -80,3 +80,4 @@
     "desc": "Here he comes Here comes Speed Racer.  "
   }
 ]
+export default data
