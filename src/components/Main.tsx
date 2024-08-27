@@ -1,8 +1,8 @@
 // require('normalize.css/normalize.css');
 import classNames from "classnames";
 import data from "../data/imageDatas.ts";
-import * as React from 'react';
-import  '../styles/main.css';
+import * as React from "react";
+import "../styles/main.css";
 
 //利用自执行函数，将图片名信息转成图片URL路径
 const imageDatas = (function genImageURL(imageDataArr) {
@@ -43,11 +43,11 @@ class ImgFigure extends React.Component<any, any> {
     let styleObj: any = {};
     //如果props属性中指定了这张图片对应dom的样式，则使用
     if (this.props.arrange.pos) {
-      styleObj = {...this.props.arrange.pos};
+      styleObj = { ...this.props.arrange.pos };
     }
 
     if (this.props.arrange.rotate) {
-      styleObj.transform =  "rotate(" + this.props.arrange.rotate + "deg)"
+      styleObj.transform = "rotate(" + this.props.arrange.rotate + "deg)";
     }
 
     if (this.props.arrange.isCenter) {
@@ -222,9 +222,7 @@ class GalleryByReactApp extends React.Component<any, any> {
       imgsArrangeArr: imgsArrangeArr,
     });
   }
-
-  // 组件家在以后，为每张图片计算其位一直的范围
-  componentDidMount() {
+  init() {
     // 首先拿到舞台的大小
     var stageDOM = this.refs.stage;
     var stageW = stageDOM.scrollWidth;
@@ -252,6 +250,17 @@ class GalleryByReactApp extends React.Component<any, any> {
     this.vPosRange.rightSecY = [-halfImgH, stageH - halfImgH];
     this.vPosRange.topSecY = [-halfImgH, halfStageH - halfImgH * 3];
     this.rearrange(0);
+  }
+  // 组件家在以后，为每张图片计算其位一直的范围
+  componentDidMount() {
+    this.init();
+    window.addEventListener(
+      "resize",
+      (event) => {
+        this.init();
+      },
+      true
+    );
   }
 
   render() {
@@ -296,7 +305,7 @@ class GalleryByReactApp extends React.Component<any, any> {
     );
 
     return (
-      <section className={'stage'} ref="stage">
+      <section className={"stage"} ref="stage">
         <section className={"img-sec"}>{imgFigures}</section>
         <nav className={"controller-nav"}>{controllerUnits}</nav>
       </section>
